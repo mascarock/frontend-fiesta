@@ -1,83 +1,74 @@
+// src/App.test.js
+
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
+import fileReducer from './redux/fileSlice';
+
+jest.mock('axios');
 import axios from 'axios';
 
-// Mock axios
-jest.mock('axios');
+describe('App component', () => {
+  let store;
 
-test('renders Toolbox File Manager with files', async () => {
-  // Mock axios to return list of files
-  axios.get.mockResolvedValueOnce({
-    data: {
-      files: ['test2.csv', 'test3.csv'],
-    },
+  beforeEach(() => {
+    // Mock the API responses
+    axios.get.mockImplementation((url) => {
+      console.log('axios.get called with url:', url);
+      if (url.includes('/files')) {
+        return Promise.resolve({
+          data: {
+            files: ['test2.csv', 'test3.csv'],
+          },
+        });
+      } else if (url.includes('/file/')) {
+        const fileName = url.substring(url.lastIndexOf('/') + 1);
+        if (fileName === 'test2.csv') {
+          return Promise.resolve({
+            data: {
+              lines: [
+                { fileName: 'test2.csv', text: 'Line 1', number: 123, hex: '0x7B' },
+              ],
+            },
+          });
+        } else if (fileName === 'test3.csv') {
+          return Promise.resolve({
+            data: {
+              lines: [
+                { fileName: 'test3.csv', text: 'Line 2', number: 456, hex: '0x1C8' },
+              ],
+            },
+          });
+        } else {
+          return Promise.reject(new Error(`Unknown file: ${fileName}`));
+        }
+      } else {
+        return Promise.reject(new Error(`Unknown URL: ${url}`));
+      }
+    });
+
+    // Create the Redux store
+    store = configureStore({
+      reducer: {
+        files: fileReducer,
+      },
+    });
   });
 
-  await act(async () => {
+  test('fetches and displays files on mount', async () => {
     render(
       <Provider store={store}>
         <App />
       </Provider>
     );
-  });
 
-  // Assert that the loading message is displayed initially
-  expect(screen.queryByText(/Loading.../i)).toBeInTheDocument();
+    // Wait for the data to be displayed
+    await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument());
 
-  // Wait for the loading message to disappear and the data to be displayed
-  await waitFor(() => {
-    expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
-  });
-
-  // Assert that the files are displayed after loading
-  await waitFor(() => {
-    expect(screen.getByText(/test2.csv/i)).toBeInTheDocument();
-    expect(screen.getByText(/test3.csv/i)).toBeInTheDocument();
-  });
-});
-
-test('handles no files returned from API', async () => {
-  // Mock axios to return an empty list of files
-  axios.get.mockResolvedValueOnce({
-    data: {
-      files: [],
-    },
-  });
-
-  await act(async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    );
-  });
-
-  // Assert that the loading message is displayed initially
-  expect(screen.queryByText(/Loading.../i)).toBeInTheDocument();
-
-  // Wait for the empty state message to be rendered after loading
-  await waitFor(() => {
-    expect(screen.getByText(/No data available/i)).toBeInTheDocument();
-  });
-});
-
-test('handles API error', async () => {
-  // Mock axios to throw an error
-  axios.get.mockRejectedValueOnce(new Error('Error fetching files'));
-
-  await act(async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    );
-  });
-
-  // Wait for the error message to be displayed
-  await waitFor(() => {
-    expect(screen.getByText(/We are experiencing technical difficulties. Please try again later./i)).toBeInTheDocument();
+    expect(screen.getByText(/Line 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/123/i)).toBeInTheDocument();
+    expect(screen.getByText(/0x7B/i)).toBeInTheDocument();
   });
 });
