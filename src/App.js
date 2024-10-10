@@ -7,12 +7,14 @@ function App() {
   const [files, setFiles] = useState([]);
   const [fileContent, setFileContent] = useState([]);
   const [error, setError] = useState(null);
+  const apiUrl = process.env.API_URL || 'http://localhost:5005';
 
   // Fetch the list of available files from backend
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const res = await axios.get('http://localhost:5005/files');
+        // get the list of files from the backend
+        const res = await axios.get(`${apiUrl}/files`);
         setFiles(res.data.files);
       } catch (err) {
         console.error('Error fetching list of files:', err);
@@ -21,7 +23,7 @@ function App() {
     };
 
     fetchFiles();
-  }, []);
+  }, [apiUrl]); // Add apiUrl to the dependency array
 
   // Fetch content for each file in the list
   useEffect(() => {
@@ -30,7 +32,7 @@ function App() {
         const allFileContents = await Promise.all(
           files.map(async (file) => {
             try {
-              const res = await axios.get(`http://localhost:5005/file/${file}`);
+              const res = await axios.get(`${apiUrl}/file/${file}`);
               return res.data.lines.map((line) => ({ ...line, fileName: file }));
             } catch (err) {
               if (err.response && err.response.status === 404) {
@@ -52,7 +54,7 @@ function App() {
     if (files.length > 0) {
       fetchFileContents();
     }
-  }, [files]);
+  }, [files, apiUrl]); // Add apiUrl to the dependency array
 
   return (
     <div className="App container mt-5">
