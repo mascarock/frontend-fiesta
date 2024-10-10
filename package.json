@@ -14,7 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.8",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.25.8",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
