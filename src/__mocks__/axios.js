@@ -1,9 +1,11 @@
-// src/__mocks__/axios.js
-
 const axiosMock = {
-    get: jest.fn(() => Promise.resolve({ data: {} })),
-    // You can add other methods like post, put, delete if needed
-  };
-  
-  export default axiosMock;
-  
+  get: jest.fn(() =>
+    Promise.resolve({
+      data: {
+        files: ['test2.csv', 'test3.csv'],  // Update the mock data to match your expectation
+      },
+    })
+  ),
+};
+
+export default axiosMock;

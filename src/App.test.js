@@ -1,16 +1,23 @@
-// src/App.test.js
-
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
 
-// Mock react-bootstrap
-jest.mock('react-bootstrap/Table', () => {
-  return ({ children }) => <table>{children}</table>;
-});
+// Mock axios
+jest.mock('axios', () => ({
+  get: jest.fn(() =>
+    Promise.resolve({
+      data: {
+        files: ['test2.csv', 'test3.csv']  // Update mock response to return these files
+      }
+    })
+  ),
+}));
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders Toolbox File Manager', async () => {
+  render(<App />);  // No need for manual act()
+
+  await waitFor(() => {
+    const linkElement = screen.getByText(/Toolbox File Manager/i);
+    expect(linkElement).toBeInTheDocument();
+  });
 });
