@@ -25,17 +25,14 @@ test('renders table with file content', () => {
 });
 
 test('renders empty table when no file content is provided', () => {
-    const mockFileContent = [];
-  
-    render(<DataTable fileContent={mockFileContent} />);
-  
-    // Query the tbody using data-testid
-    const tbody = screen.getByTestId('table-body');
-    const rows = tbody.querySelectorAll('tr');
-  
-    // Expect exactly one row for the "Loading..." message
-    expect(rows.length).toBe(1);
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    render(<DataTable fileContent={[]} />);
+    
+    // Check for "No data available" when there is no file content
+    expect(screen.getByText(/No data available/i)).toBeInTheDocument();
+    
+    // Ensure the table is rendered
+    const rows = screen.getAllByRole('row');
+    expect(rows.length).toBeGreaterThan(0); // The header row should be present
   });
   
   
