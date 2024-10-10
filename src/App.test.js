@@ -6,6 +6,15 @@ import axios from 'axios';  // Import axios to mock
 // Mock axios
 jest.mock('axios');
 
+// Mock console.error to silence the error output in the test
+beforeEach(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterEach(() => {
+  console.error.mockRestore();  // Restore the original implementation after each test
+});
+
 test('renders Toolbox File Manager with files', async () => {
   // Mocking axios get request for `/files`
   axios.get.mockImplementation((url) => {
@@ -51,36 +60,27 @@ test('renders Toolbox File Manager with files', async () => {
 });
 
 test('handles no files returned from API', async () => {
-  // Simulate an empty file list from the API
-  axios.get.mockResolvedValueOnce({
-    data: {
-      files: [],  // No files returned
-    },
-  });
+  // Mocking axios get request for `/files` with an empty list
+  axios.get.mockResolvedValueOnce({ data: { files: [] } });
 
   render(<App />);
 
-  // Check if the component properly handles the case with no files
+  // Wait for the "No data available" message to appear
   await waitFor(() => {
-    const noFilesMessage = screen.getByText(/No files available/i);
+    const noFilesMessage = screen.getByText(/No data available/i);
     expect(noFilesMessage).toBeInTheDocument();
   });
 });
 
 test('handles API error', async () => {
-  // Mocking an error response from the API
+  // Mocking axios get request for `/files` to throw an error
   axios.get.mockRejectedValueOnce(new Error('Error fetching files'));
-
-  // Mocking console.error to avoid polluting test logs
-  const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
 
   render(<App />);
 
-  // Check if the error message is displayed when the API fails
+  // Wait for the error message to appear
   await waitFor(() => {
-    const errorMessage = screen.getByText(/Error fetching files from backend/i);
+    const errorMessage = screen.getByText(/We are experiencing technical difficulties. Please try again later./i);
     expect(errorMessage).toBeInTheDocument();
   });
-
-  consoleErrorMock.mockRestore();  // Restore console.error after test
 });
