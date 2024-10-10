@@ -23,7 +23,7 @@ function App() {
     };
 
     fetchFiles();
-  }, [apiUrl]);
+  }, [apiUrl]); // Add apiUrl to the dependency array
 
   // Fetch content for each file in the list
   useEffect(() => {
@@ -54,7 +54,7 @@ function App() {
     if (files.length > 0) {
       fetchFileContents();
     }
-  }, [files, apiUrl]);
+  }, [files, apiUrl]); // Add apiUrl to the dependency array
 
   return (
     <div className="App container mt-5">
@@ -63,8 +63,6 @@ function App() {
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
-      ) : files.length === 0 ? (
-        <p>No files available</p>  // Display message when no files are present
       ) : (
         <DataTable fileContent={fileContent} />
       )}
