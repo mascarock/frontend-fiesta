@@ -1,3 +1,5 @@
+// src/App.js
+
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFiles, fetchFileContents } from './redux/fileSlice'; // Import your actions
