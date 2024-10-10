@@ -1,67 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFiles, fetchFileContents } from './redux/fileSlice'; // Import your actions
 import DataTable from './components/DataTable';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [files, setFiles] = useState([]);
-  const [fileContent, setFileContent] = useState([]);
-  const [error, setError] = useState(null);
-  const apiUrl = process.env.API_URL || 'http://localhost:5005';
+  const dispatch = useDispatch();
+  const { files, fileContent, status, error } = useSelector((state) => state.files);
 
-  // Fetch the list of available files from backend
+  // Dispatch action to fetch files on mount
   useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        // get the list of files from the backend
-        const res = await axios.get(`${apiUrl}/files`);
-        setFiles(res.data.files);
-      } catch (err) {
-        console.error('Error fetching list of files:', err);
-        setError('We are experiencing technical difficulties. Please try again later.');
-      }
-    };
+    dispatch(fetchFiles());
+  }, [dispatch]);
 
-    fetchFiles();
-  }, [apiUrl]); // Add apiUrl to the dependency array
-
-  // Fetch content for each file in the list
+  // Fetch file content when files are loaded
   useEffect(() => {
-    const fetchFileContents = async () => {
-      try {
-        const allFileContents = await Promise.all(
-          files.map(async (file) => {
-            try {
-              const res = await axios.get(`${apiUrl}/file/${file}`);
-              return res.data.lines.map((line) => ({ ...line, fileName: file }));
-            } catch (err) {
-              if (err.response && err.response.status === 404) {
-                console.error(`File not found: ${file}`);
-              } else {
-                console.error(`Error fetching file content: ${file}`, err);
-              }
-              return []; // Return empty content for unavailable files
-            }
-          })
-        );
-        setFileContent(allFileContents.flat());
-      } catch (err) {
-        console.error('Error fetching file content:', err);
-        setError('Error fetching file contents from backend');
-      }
-    };
-
     if (files.length > 0) {
-      fetchFileContents();
+      dispatch(fetchFileContents(files));
     }
-  }, [files, apiUrl]); // Add apiUrl to the dependency array
+  }, [dispatch, files]);
 
   return (
     <div className="App container mt-5">
       <h1 className="mb-4 p-2 text-white bg-danger">Toolbox File Manager</h1>
+      {status === 'loading' && files.length === 0 && (
+        <div className="alert alert-info" role="alert">
+          Loading...
+        </div>
+      )}
       {error ? (
         <div className="alert alert-danger" role="alert">
-          {error}
+          We are experiencing technical difficulties. Please try again later.
         </div>
       ) : (
         <DataTable fileContent={fileContent} />

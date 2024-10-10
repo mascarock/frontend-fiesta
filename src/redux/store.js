@@ -4,7 +4,7 @@ import fileReducer from './fileSlice';
 
 export const store = configureStore({
   reducer: {
-    files: fileReducer, // Add fileSlice reducer
+    files: fileReducer,
   },
 });
 

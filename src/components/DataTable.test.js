@@ -33,9 +33,9 @@ test('renders empty table when no file content is provided', () => {
     const tbody = screen.getByTestId('table-body');
     const rows = tbody.querySelectorAll('tr');
   
-    // Expect exactly one row for the "No data available" message
+    // Expect exactly one row for the "Loading..." message
     expect(rows.length).toBe(1);
-    expect(screen.getByText(/No data available/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
   
   
