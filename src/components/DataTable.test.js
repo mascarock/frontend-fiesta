@@ -10,16 +10,32 @@ test('renders table with file content', () => {
 
   render(<DataTable fileContent={mockFileContent} />);
 
-  // Check table headers
+  // Check if the table headers are rendered correctly
   expect(screen.getByText(/File Name/i)).toBeInTheDocument();
   expect(screen.getByText(/Text/i)).toBeInTheDocument();
   expect(screen.getByText(/Number/i)).toBeInTheDocument();
   expect(screen.getByText(/Hex/i)).toBeInTheDocument();
 
-  // Check table content
+  // Check if the file content is rendered correctly
   expect(screen.getByText(/test2.csv/i)).toBeInTheDocument();
   expect(screen.getByText(/test3.csv/i)).toBeInTheDocument();
   expect(screen.getByText(/Line 1/i)).toBeInTheDocument();
   expect(screen.getByText(/123/i)).toBeInTheDocument();
   expect(screen.getByText(/0x7B/i)).toBeInTheDocument();
 });
+
+test('renders empty table when no file content is provided', () => {
+    const mockFileContent = [];
+  
+    render(<DataTable fileContent={mockFileContent} />);
+  
+    // Query the tbody using data-testid
+    const tbody = screen.getByTestId('table-body');
+    const rows = tbody.querySelectorAll('tr');
+  
+    // Expect exactly one row for the "No data available" message
+    expect(rows.length).toBe(1);
+    expect(screen.getByText(/No data available/i)).toBeInTheDocument();
+  });
+  
+  
