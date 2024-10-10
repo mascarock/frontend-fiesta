@@ -18,7 +18,7 @@ function App() {
         setFiles(res.data.files);
       } catch (err) {
         console.error('Error fetching list of files:', err);
-        setError('Error fetching files from backend');
+        setError('We are experiencing technical difficulties. Please try again later.');
       }
     };
 
