@@ -24,7 +24,7 @@ function DataTable({ fileContent }) {
           ))
         ) : (
           <tr>
-            <td colSpan="4" className="text-center">No data available</td>
+            <td colSpan="4" className="text-center">Loading Data...</td>
           </tr>
         )}
       </tbody>

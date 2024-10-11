@@ -28,7 +28,7 @@ test('renders empty table when no file content is provided', () => {
     render(<DataTable fileContent={[]} />);
     
     // Check for "No data available" when there is no file content
-    expect(screen.getByText(/No data available/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading data.../i)).toBeInTheDocument();
     
     // Ensure the table is rendered
     const rows = screen.getAllByRole('row');
