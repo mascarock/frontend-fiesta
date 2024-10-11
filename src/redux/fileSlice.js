@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Define the API URL from the environment variable
-const apiUrl = process.env.API_URL || 'http://localhost:5005';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005';
 console.log('API URL:', apiUrl);
 
 // Fetch files from backend
