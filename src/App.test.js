@@ -1,5 +1,3 @@
-// src/App.test.js
-
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -20,7 +18,7 @@ describe('App component', () => {
       if (url.includes('/files')) {
         return Promise.resolve({
           data: {
-            files: ['test2.csv', 'test3.csv'],
+            files: ['test2.csv', 'test3.csv', 'test18.csv'],
           },
         });
       } else if (url.includes('/file/')) {
@@ -38,6 +36,14 @@ describe('App component', () => {
             data: {
               lines: [
                 { fileName: 'test3.csv', text: 'Line 2', number: 456, hex: '0x1C8' },
+              ],
+            },
+          });
+        } else if (fileName === 'test18.csv') {
+          return Promise.resolve({
+            data: {
+              lines: [
+                { fileName: 'test18.csv', text: 'Line 3', number: 789, hex: '0xFFF' },
               ],
             },
           });
@@ -93,7 +99,7 @@ describe('App component', () => {
     await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument());
 
     // Simulate user typing into the filter input
-    const filterInput = screen.getByPlaceholderText(/Filter by file name/i);
+    const filterInput = screen.getByPlaceholderText(/Search by file name/i);
     fireEvent.change(filterInput, { target: { value: 'test3' } });
 
     // Wait for the filtered data to be displayed
@@ -101,4 +107,7 @@ describe('App component', () => {
     expect(screen.getByText(/test3.csv/i)).toBeInTheDocument();
     expect(screen.getByText(/Line 2/i)).toBeInTheDocument();
   });
+
+  
+  
 });
