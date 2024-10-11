@@ -12,15 +12,21 @@ function DataTable({ fileContent }) {
           <th>Hex</th>
         </tr>
       </thead>
-      <tbody>
-        {fileContent.map((line, index) => (
-          <tr key={index}>
-            <td>{line.fileName}</td>
-            <td>{line.text}</td>
-            <td>{line.number}</td>
-            <td>{line.hex}</td>
+      <tbody data-testid="table-body"> 
+        {fileContent.length > 0 ? (
+          fileContent.map((line, index) => (
+            <tr key={index}>
+              <td>{line.fileName}</td>
+              <td>{line.text}</td>
+              <td>{line.number}</td>
+              <td>{line.hex}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="4" className="text-center">Loading Data...</td>
           </tr>
-        ))}
+        )}
       </tbody>
     </Table>
   );

@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.error-container {
+  position: relative;
+}
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: rgba(255, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+  animation: fade-in 1.5s ease-in-out infinite;
+}
+
+.blurred-background {
+  filter: blur(8px);
+  pointer-events: none; /* Prevent interaction with the blurred content */
+  opacity: 0.4;
+}
+
+/* Error message animation */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
