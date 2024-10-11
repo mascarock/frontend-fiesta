@@ -92,7 +92,7 @@ function App() {
             />
             <h1 className="text-white responsive-header">File Manager</h1>
           </div>
-
+  
           {/* Filter Input */}
           <div className="mb-3 text-center">
             <input
@@ -103,13 +103,14 @@ function App() {
               className="form-control filter-input"
             />
           </div>
-
+  
+          {/* Scrollbar is now part of the table container itself */}
           {error ? (
             <div className="alert alert-danger" role="alert">
               We are experiencing technical difficulties. Please try again later.
             </div>
           ) : (
-            <div className="table-responsive">
+            <div className="table-responsive table-scroll-wrapper">
               <DataTable
                 fileContent={filteredFileContent}
                 isLoading={status === 'loading'}
@@ -122,6 +123,8 @@ function App() {
       )}
     </div>
   );
+  
+  
 }
 
 export default App;

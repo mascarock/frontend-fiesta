@@ -47,13 +47,27 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Table Adjustments for Smaller Screens */
-.table-responsive {
-  overflow-x: auto; /* Allow scrolling if the table does not fit */
+/* Horizontal Scrollbar Styles for Table Wrapper */
+.table-scroll-wrapper {
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  margin-top: 15px;  /* Added space between search bar and table */
+  margin-bottom: 10px; /* Space between scrollbar and table */
 }
 
+.table-scroll-wrapper::-webkit-scrollbar {
+  height: 8px; /* Height of scrollbar */
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #a3a3a3; /* Gray color for scrollbar thumb */
+  border-radius: 5px; /* Rounded corners for a more polished look */
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of scrollbar track */
+}
+
+/* Table Adjustments for Smaller Screens */
 .table {
   width: 100%; /* Make sure the table takes full width */
   font-size: 1rem; /* Adjusted font size for readability */
@@ -75,7 +89,6 @@
   margin-top: 10px; /* Increase the spacing between the title and the buttons */
 }
 
-
 .reset-button {
   padding: 5px 10px; /* Adjust button size for better fit */
   font-size: 0.85rem;
@@ -85,17 +98,6 @@
 .header-container img,
 .header-container h1 {
   margin: auto; /* Center each element */
-}
-
-/* Scrollbar above the table for mobile view */
-.table-responsive {
-  position: relative;
-}
-
-.table-scroll-top {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  margin-bottom: 5px; /* Space between scrollbar and table */
 }
 
 /* Smooth scrolling for better experience */
