@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 
-function DataTable({ fileContent }) {
+function DataTable({ fileContent, isLoading }) {
   return (
     <Table striped bordered hover responsive>
       <thead className="thead-dark">
@@ -13,7 +13,13 @@ function DataTable({ fileContent }) {
         </tr>
       </thead>
       <tbody data-testid="table-body"> 
-        {fileContent.length > 0 ? (
+        {isLoading ? (
+          // If the data is still loading
+          <tr>
+            <td colSpan="4" className="text-center">Loading Data...</td>
+          </tr>
+        ) : fileContent.length > 0 ? (
+          // If data is available and loaded
           fileContent.map((line, index) => (
             <tr key={index}>
               <td>{line.fileName}</td>
@@ -23,8 +29,9 @@ function DataTable({ fileContent }) {
             </tr>
           ))
         ) : (
+          // If no file was found after search
           <tr>
-            <td colSpan="4" className="text-center">Loading Data...</td>
+            <td colSpan="4" className="text-center">File not found</td>
           </tr>
         )}
       </tbody>

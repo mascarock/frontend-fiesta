@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFiles, fetchFileContents } from './redux/fileSlice';
@@ -48,17 +46,13 @@ function App() {
         />
       </div>
 
-      {status === 'loading' && files.length === 0 && (
-        <div className="alert alert-info" role="alert">
-          Loading...
-        </div>
-      )}
       {error ? (
         <div className="alert alert-danger" role="alert">
           We are experiencing technical difficulties. Please try again later.
         </div>
       ) : (
-        <DataTable fileContent={filteredFileContent} />
+        // Pass 'isLoading' and 'filteredFileContent' to DataTable
+        <DataTable fileContent={filteredFileContent} isLoading={status === 'loading'} />
       )}
     </div>
   );
