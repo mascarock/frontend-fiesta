@@ -124,3 +124,24 @@ html {
     font-size: 0.85rem;
   }
 }
+
+@keyframes blurInOut {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+
+.loading-logo {
+  width: 200px;  /* Adjust size as needed */
+  animation: blurInOut 2s ease-in-out;
+  margin: 20% auto; /* Centers the logo vertically and horizontally */
+}
