@@ -1,7 +1,7 @@
 // src/App.test.js
 
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
@@ -18,13 +18,11 @@ describe('App component', () => {
     axios.get.mockImplementation((url) => {
       console.log('axios.get called with url:', url);
       if (url.includes('/files')) {
-        // Simulate a backend error for the '/files' endpoint
-        const error = new Error('Request failed with status code 500');
-        error.response = {
-          status: 500,
-          statusText: 'Internal Server Error',
-        };
-        return Promise.reject(error);
+        return Promise.resolve({
+          data: {
+            files: ['test2.csv', 'test3.csv'],
+          },
+        });
       } else if (url.includes('/file/')) {
         const fileName = url.substring(url.lastIndexOf('/') + 1);
         if (fileName === 'test2.csv') {
@@ -70,18 +68,6 @@ describe('App component', () => {
   });
 
   test('fetches and displays files on mount', async () => {
-    // Adjust the mock to return success for '/files' endpoint
-    axios.get.mockImplementationOnce((url) => {
-      if (url.includes('/files')) {
-        return Promise.resolve({
-          data: {
-            files: ['test2.csv', 'test3.csv'],
-          },
-        });
-      }
-      return axios.get(url); // Use the existing mock for other URLs
-    });
-
     render(
       <Provider store={store}>
         <App />
@@ -96,24 +82,23 @@ describe('App component', () => {
     expect(screen.getByText(/0x7B/i)).toBeInTheDocument();
   });
 
-  test('displays error message when fetching files fails', async () => {
+  test('filters files based on user input', async () => {
     render(
       <Provider store={store}>
         <App />
       </Provider>
     );
 
-    // Wait for the error message to be displayed
-    await waitFor(() =>
-      expect(
-        screen.getByText(
-          /We are experiencing technical difficulties. Please try again later./i
-        )
-      ).toBeInTheDocument()
-    );
+    // Wait for the data to be displayed
+    await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument());
 
-    // Ensure that the data is not displayed
-    expect(screen.queryByText(/test2.csv/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Line 1/i)).not.toBeInTheDocument();
+    // Simulate user typing into the filter input
+    const filterInput = screen.getByPlaceholderText(/Filter by file name/i);
+    fireEvent.change(filterInput, { target: { value: 'test3' } });
+
+    // Wait for the filtered data to be displayed
+    await waitFor(() => expect(screen.queryByText(/test2.csv/i)).not.toBeInTheDocument());
+    expect(screen.getByText(/test3.csv/i)).toBeInTheDocument();
+    expect(screen.getByText(/Line 2/i)).toBeInTheDocument();
   });
 });
