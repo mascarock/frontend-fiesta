@@ -75,3 +75,14 @@
   }
 }
 
+.header-container {
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  width: 120px;  /* Adjust the size of the logo */
+  height: auto;
+  margin-right: 15px;
+}
