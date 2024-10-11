@@ -99,7 +99,7 @@ describe('App component', () => {
     await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument());
 
     // Simulate user typing into the filter input
-    const filterInput = screen.getByPlaceholderText(/Filter by file name/i);
+    const filterInput = screen.getByPlaceholderText(/Search by file name/i);
     fireEvent.change(filterInput, { target: { value: 'test3' } });
 
     // Wait for the filtered data to be displayed

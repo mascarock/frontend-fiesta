@@ -70,24 +70,24 @@ function App() {
   }
 
   return (
-    <div className="App container mt-5">
-      <div className="header-container rounded p-3 mb-4 d-flex align-items-center bg-danger">
+    <div className="App container mt-3">
+      <div className="header-container rounded p-3 mb-4 d-flex align-items-center bg-danger flex-wrap">
         <img
           src={`${process.env.PUBLIC_URL}/logo-retina.png`}
           alt="Logo"
-          className="logo-img mr-3"
+          className="logo-img"
         />
-        <h1 className="text-white">File Manager</h1>
+        <h1 className="text-white responsive-header">File Manager</h1>
       </div>
 
       {/* Filter Input */}
-      <div className="mb-3">
+      <div className="mb-3 text-center">
         <input
           type="text"
           value={filter}
           onChange={handleFilterChange}
-          placeholder="Filter by file name"
-          className="form-control"
+          placeholder="Search by file name"
+          className="form-control filter-input"
         />
       </div>
 
@@ -96,12 +96,16 @@ function App() {
           We are experiencing technical difficulties. Please try again later.
         </div>
       ) : (
-        <DataTable
-          fileContent={filteredFileContent}
-          isLoading={status === 'loading'}
-          sortConfig={sortConfig}
-          onSort={onSort}
-        />
+        <div className="table-responsive">
+          <div className="table-scroll-top">
+            <DataTable
+              fileContent={filteredFileContent}
+              isLoading={status === 'loading'}
+              sortConfig={sortConfig}
+              onSort={onSort}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
