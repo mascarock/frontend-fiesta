@@ -92,7 +92,7 @@ function App() {
             />
             <h1 className="text-white responsive-header">File Manager</h1>
           </div>
-
+  
           {/* Filter Input */}
           <div className="mb-3 text-center">
             <input
@@ -103,25 +103,41 @@ function App() {
               className="form-control filter-input"
             />
           </div>
-
+  
           {error ? (
             <div className="alert alert-danger" role="alert">
               We are experiencing technical difficulties. Please try again later.
             </div>
           ) : (
-            <div className="table-responsive">
-              <DataTable
-                fileContent={filteredFileContent}
-                isLoading={status === 'loading'}
-                sortConfig={sortConfig}
-                onSort={onSort}
-              />
-            </div>
+            <>
+              {/* Scroll bar at the top for easy horizontal scrolling */}
+              <div className="table-scroll-top">
+                <div className="table-responsive">
+                  <DataTable
+                    fileContent={filteredFileContent}
+                    isLoading={status === 'loading'}
+                    sortConfig={sortConfig}
+                    onSort={onSort}
+                  />
+                </div>
+              </div>
+  
+              {/* Main table content */}
+              <div className="table-responsive">
+                <DataTable
+                  fileContent={filteredFileContent}
+                  isLoading={status === 'loading'}
+                  sortConfig={sortConfig}
+                  onSort={onSort}
+                />
+              </div>
+            </>
           )}
         </>
       )}
     </div>
   );
+  
 }
 
 export default App;
