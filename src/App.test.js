@@ -14,7 +14,6 @@ describe('App component', () => {
   beforeEach(() => {
     // Mock the API responses
     axios.get.mockImplementation((url) => {
-      console.log('axios.get called with url:', url);
       if (url.includes('/files')) {
         return Promise.resolve({
           data: {
@@ -80,8 +79,11 @@ describe('App component', () => {
       </Provider>
     );
 
+    // Wait for the loading animation to disappear
+    await waitFor(() => expect(screen.queryByAltText(/Loading Logo/i)).not.toBeInTheDocument(), { timeout: 3000 });
+
     // Wait for the data to be displayed
-    await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument(), { timeout: 3000 });
 
     expect(screen.getByText(/Line 1/i)).toBeInTheDocument();
     expect(screen.getByText(/123/i)).toBeInTheDocument();
@@ -95,19 +97,19 @@ describe('App component', () => {
       </Provider>
     );
 
+    // Wait for the loading animation to disappear
+    await waitFor(() => expect(screen.queryByAltText(/Loading Logo/i)).not.toBeInTheDocument(), { timeout: 3000 });
+
     // Wait for the data to be displayed
-    await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/test2.csv/i)).toBeInTheDocument(), { timeout: 3000 });
 
     // Simulate user typing into the filter input
-    const filterInput = screen.getByPlaceholderText(/Search by file name/i);
+    const filterInput = screen.getByPlaceholderText(/Filter by file name/i);
     fireEvent.change(filterInput, { target: { value: 'test3' } });
 
     // Wait for the filtered data to be displayed
-    await waitFor(() => expect(screen.queryByText(/test2.csv/i)).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText(/test2.csv/i)).not.toBeInTheDocument(), { timeout: 3000 });
     expect(screen.getByText(/test3.csv/i)).toBeInTheDocument();
     expect(screen.getByText(/Line 2/i)).toBeInTheDocument();
   });
-
-  
-  
 });

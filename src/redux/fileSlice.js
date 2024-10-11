@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // Define the API URL from the environment variable
 const apiUrl = process.env.API_URL || 'http://localhost:5005';
+console.log('API URL:', apiUrl);
 
 // Fetch files from backend
 export const fetchFiles = createAsyncThunk('files/fetchFiles', async () => {
