@@ -56,6 +56,14 @@ https://github.com/user-attachments/assets/c2d5f5e3-bcab-4940-a1d0-0af077046410
    npm install
    ```
 
+4. **Copy environment variables file:**
+
+   ```bash
+   cp .env.sample .env
+   ```
+
+5. **Personalize the `.env` file** with your specific settings, such as API URLs and other environment configurations.
+
 ### Running the App
 
 Start the development server by running:
@@ -158,4 +166,3 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ---
 
 *Happy coding!*
-
