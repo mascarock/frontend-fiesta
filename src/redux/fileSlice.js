@@ -7,7 +7,7 @@ console.log('API URL:', apiUrl);
 
 // Fetch files from backend
 export const fetchFiles = createAsyncThunk('files/fetchFiles', async () => {
-  const response = await axios.get(`${apiUrl}/files`); // Use the API URL for endpoint
+  const response = await axios.get(`${apiUrl}/files/list`); // Use the API URL for endpoint
   return response.data.files;
 });
 
