@@ -21,6 +21,8 @@ This repository houses the frontend of the application built with **React**. It 
 
 ---
 
+[Backend Repository](https://github.com/mascarock/express-yourself)
+
 ## Getting Started
 
 ### Prerequisites
