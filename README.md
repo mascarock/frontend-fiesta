@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+# frontend-fiesta
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository houses the frontend of the application built with **React**. It serves as the user interface that interacts with the backend API.
 
-## Available Scripts
+## Author
 
-In the project directory, you can run:
+**mascarock**
 
-### `npm start`
+## Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the App](#running-the-app)
+  - [Docker Instructions](#docker-instructions)
+- [Testing](#testing)
+  - [Running Tests](#running-tests)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- **Node.js** (version 12 or higher)
+- **npm** (Node Package Manager)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the repository:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   git clone https://github.com/your-username/frontend-fiesta.git
+   ```
 
-### `npm run eject`
+2. **Navigate to the project directory:**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   ```bash
+   cd frontend-fiesta
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Install the dependencies:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Running the App
 
-## Learn More
+Start the development server by running:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The app will start on **[localhost:3000](http://localhost:3000)** by default.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Docker Instructions
 
-### Analyzing the Bundle Size
+### Building the Docker Image
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To build the Docker image for the frontend, run the following command from the project root directory:
 
-### Making a Progressive Web App
+```bash
+docker build -t frontend-fiesta .
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Running the Docker Container
 
-### Advanced Configuration
+To run the Docker container for the frontend, use the following command:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+docker run -p 3000:80 --name frontend-container -e REACT_APP_API_URL=http://localhost:5005 frontend-fiesta
+```
 
-### Deployment
+This will start the frontend container and expose it on **port 3000** on your local machine.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Running Tests
+
+Run the test suite using **Jest** and **React Testing Library**:
+
+```bash
+npm test
+```
+
+This command runs the test suite in interactive watch mode, allowing you to verify that the UI components and interactions work as expected.
+
+---
+
+## Project Structure
+
+```
+frontend-fiesta/
+├── public/             # Public assets and index.html
+├── src/                # React components, Redux logic, and other source files
+├── package.json        # Project metadata and dependencies
+└── README.md           # Project documentation
+```
+
+---
+
+## Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork the repository.**
+
+2. **Create a new branch:**
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Make your changes and commit them:**
+
+   ```bash
+   git commit -m 'Add some feature'
+   ```
+
+4. **Push to the branch:**
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. **Open a pull request.**
+
+---
+
+## License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Additional Information
+
+- **Environment Variables:** Use a `.env` file to manage environment-specific settings. Refer to `.env.example` for required variables.
+- **Contact:** For questions or support, please open an issue or contact the repository owner.
+
+---
+
+*Happy coding!*
+
