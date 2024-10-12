@@ -2,6 +2,12 @@
 
 This repository houses the frontend of the application built with **React**. It serves as the user interface that interacts with the backend API.
 
+
+https://github.com/user-attachments/assets/c2d5f5e3-bcab-4940-a1d0-0af077046410
+
+
+
+
 ## Author
 
 **mascarock**
